@@ -41,5 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 # agents opencode and claude
-/.agents/skills
-/.claude/skills
+/.agents
+/.claude
