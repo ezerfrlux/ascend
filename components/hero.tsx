@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, useReducedMotion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 function pxShadow(values: string[]): string {
@@ -148,7 +148,17 @@ export default function Hero() {
         }}
       />
 
-      {/* Esquinas decorativas */}
+      <motion.div
+        className="absolute pointer-events-none w-[700px] h-[700px] md:w-[1250px] md:h-[1250px] rounded-full"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        style={{
+          background:
+            "radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(120,120,120,0.03) 45%, transparent 70%)",
+        }}
+      />
+
       <motion.div
         className="absolute top-[11%] left-[46%]"
         style={{ width: "4px", height: "4px" }}
@@ -190,7 +200,6 @@ export default function Hero() {
         <div style={{ boxShadow: cornerBR }} />
       </motion.div>
 
-      {/* Líneas decorativas */}
       <motion.div
         className="absolute top-[10.5%] left-[41%]"
         style={{ width: "120px", height: "4px" }}
@@ -304,7 +313,7 @@ export default function Hero() {
             <Button
               variant="default"
               size="lg"
-              className="rounded-none border-2 border-white bg-white px-8 py-3 text-xs font-bold tracking-[0.2em] font-mono text-black hover:bg-white/90"
+              className="rounded-none border-2 border-white bg-white px-8 py-3 text-xs font-bold tracking-[0.2em] font-mono text-black hover:bg-white/90 hover:border-white transition-all duration-300 shadow-[0_0_10px_rgba(255,255,255,0.15)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
             >
               GET STARTED
             </Button>
@@ -331,7 +340,7 @@ export default function Hero() {
             <Button
               variant="outline"
               size="lg"
-              className="rounded-none border-2 border-white/30 bg-transparent px-8 py-3 text-xs font-bold tracking-[0.2em] font-mono text-white hover:bg-white/10"
+              className="rounded-none border-2 border-white/50 bg-transparent px-8 py-3 text-xs font-bold tracking-[0.2em] font-mono text-white hover:bg-white/10 hover:text-white hover:border-white transition-all duration-300 shadow-[0_0_10px_rgba(255,255,255,0.15)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
             >
               SIGN IN
             </Button>
