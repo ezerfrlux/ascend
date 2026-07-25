@@ -76,7 +76,7 @@ const cornerVariants = {
 
 export default function Hero() {
   const [pixels, setPixels] = useState<
-    { left: number; top: number; delay: number; opacity: number }[]
+    { left: number; top: number; delay: number; opacity: number; color: string }[]
   >([]);
 
   useEffect(() => {
@@ -84,11 +84,22 @@ export default function Hero() {
       const cols = Math.ceil(window.innerWidth / GRID);
       const rows = Math.ceil(window.innerHeight / GRID);
 
+      const colorPalette = [
+        "#ffffff",
+        "#e2e8f0",
+        "#94a3b8",
+        "#d8b4fe",
+        "#c084fc",
+        "#a855f7",
+        "#7e22ce",
+      ];
+
       const arr = Array.from({ length: 120 }, () => ({
         left: Math.floor(Math.random() * cols) * GRID,
         top: Math.floor(Math.random() * rows) * GRID,
         delay: Math.random() * 1.5,
         opacity: 0.25 + Math.random() * 0.75,
+        color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
       }));
 
       setPixels(arr);
@@ -108,7 +119,6 @@ export default function Hero() {
       ref={sectionRef}
       className="relative flex flex-col items-center justify-center min-h-screen bg-black overflow-hidden select-none"
     >
-      {/* Píxeles con animación infinita */}
       {pixels.map((p, i) => (
         <motion.div
           key={i}
@@ -130,12 +140,12 @@ export default function Hero() {
             top: p.top,
             width: PIXEL,
             height: PIXEL,
-            background: "#fff",
+            background: p.color,
+            boxShadow: p.color.includes("f") ? "0 0 6px rgba(168,85,247,0.4)" : "none",
           }}
         />
       ))}
 
-      {/* Grid de fondo */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
         initial={{ opacity: 0 }}
@@ -149,13 +159,13 @@ export default function Hero() {
       />
 
       <motion.div
-        className="absolute pointer-events-none w-[700px] h-[700px] md:w-[1250px] md:h-[1250px] rounded-full"
+        className="absolute pointer-events-none w-[600px] h-[600px] md:w-[800px] md:h-[800px] rounded-full"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
         style={{
           background:
-            "radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(120,120,120,0.03) 45%, transparent 70%)",
+            "radial-gradient(circle, rgba(168,85,247,0.12) 0%, rgba(100,50,180,0.04) 45%, transparent 70%)",
         }}
       />
 
