@@ -137,19 +137,14 @@ export default function DashboardPage() {
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto px-4 py-8 lg:px-8">
-          <motion.div
-            className="mb-8"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.1 }}
-          >
+          <div className="mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-white tracking-[0.35em] font-mono whitespace-nowrap">
               DASHBOARD
             </h1>
             <p className="text-white/40 text-sm font-mono mt-2 max-w-md">
               Track your daily habits. Build consistency. Ascend beyond limits.
             </p>
-          </motion.div>
+          </div>
 
           <StatsRow />
 
