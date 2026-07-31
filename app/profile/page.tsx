@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
-import Nav from "@/components/nav";
 import ProfileStatsRow from "@/components/profile-stats-row";
 import ProfileForm from "@/components/profile-form";
 import DangerZone from "@/components/danger-zone";
@@ -50,8 +49,6 @@ export default function ProfilePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-neutral-950">
-      <Nav />
-
       <main className="relative flex-1 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none" style={{
           backgroundImage:
