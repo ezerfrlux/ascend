@@ -9,6 +9,8 @@ import {
 } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import PixelEffects from "./PixelEffects";
+import { useRouter } from "next/navigation";
+
 
 const SPRING = { type: "spring" as const };
 const TWEEN = { type: "tween" as const };
@@ -53,6 +55,11 @@ export default function Hero() {
   const shouldAnimate = !useReducedMotion() && isInView;
 
   const a = (v: boolean) => (v ? 1 : 0);
+
+  const router = useRouter()
+  const handleClick = () => {
+    router.push('/login')
+  }
 
   return (
     <section
@@ -850,6 +857,7 @@ export default function Hero() {
             transition={{ ...SPRING, stiffness: 400, damping: 17 }}
           >
             <Button
+            onClick={handleClick}
               variant="outline"
               size="lg"
               className="rounded-none border-2 border-white/50 bg-transparent px-8 py-3 text-xs font-bold tracking-[0.2em] font-mono text-white hover:bg-white/10 hover:text-white hover:border-white transition-all duration-300 shadow-[0_0_10px_rgba(255,255,255,0.15)] hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]"
