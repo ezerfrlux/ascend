@@ -2,8 +2,12 @@
 
 import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
+import ProfileHeader from "@/components/profile-header";
 import ProfileStatsRow from "@/components/profile-stats-row";
 import ProfileForm from "@/components/profile-form";
+import ProfileAchievements from "@/components/profile-achievements";
+import ProfileActivity from "@/components/profile-activity";
+import ProfileSecurity from "@/components/profile-security";
 import DangerZone from "@/components/danger-zone";
 
 const TWEEN = { type: "tween" as const };
@@ -102,20 +106,9 @@ export default function ProfilePage() {
           <div style={{ boxShadow: sp(["0 0 0 0 #fff", "-8px 0 0 0 #fff", "8px 0 0 0 #fff", "0px -8px 0 0 #fff", "0px 8px 0 0 #fff"]) }} />
         </div>
 
-        <div className="relative z-10 max-w-3xl mx-auto px-4 py-8 lg:px-8">
-          <div className="flex items-center gap-5 mb-8">
-            <div className="h-14 w-14 rounded-full bg-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-              <span className="text-lg font-bold text-purple-400 font-mono">U</span>
-            </div>
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white tracking-[0.35em] font-mono whitespace-nowrap">
-                PROFILE
-              </h1>
-              <p className="text-white/40 text-sm font-mono mt-1">
-                user@example.com
-              </p>
-            </div>
-          </div>
+          <div className="relative z-10 max-w-3xl mx-auto px-4 py-8 lg:px-8">
+
+          <ProfileHeader />
 
           <ProfileStatsRow />
 
@@ -133,6 +126,33 @@ export default function ProfilePage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.35 }}
+          >
+            <ProfileAchievements />
+          </motion.div>
+
+          <motion.div
+            className="mt-8"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.45 }}
+          >
+            <ProfileActivity />
+          </motion.div>
+
+          <motion.div
+            className="mt-8"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.55 }}
+          >
+            <ProfileSecurity />
+          </motion.div>
+
+          <motion.div
+            className="mt-8"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.65 }}
           >
             <DangerZone />
           </motion.div>
