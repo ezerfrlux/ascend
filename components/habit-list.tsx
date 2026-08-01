@@ -12,6 +12,7 @@ interface Habit {
   streak: number;
   progress: number;
   time: string;
+  category: string;
 }
 
 interface HabitListProps {
@@ -81,9 +82,14 @@ export default function HabitList({ habits, onToggle, onDelete, onSelect }: Habi
             >
               {habit.name}
             </p>
-            <p className="text-[10px] font-mono text-white/25 mt-0.5">
-              {habit.time} · {habit.streak} day streak
-            </p>
+            <div className="flex items-center gap-2 mt-0.5">
+              <p className="text-[10px] font-mono text-white/25">
+                {habit.time} · {habit.streak} day streak
+              </p>
+              <span className="text-[10px] font-mono text-white/20 bg-white/5 px-1.5 py-0.5 rounded border border-white/5">
+                {habit.category}
+              </span>
+            </div>
           </div>
 
           <div className="flex-shrink-0 w-20">

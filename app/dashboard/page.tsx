@@ -6,6 +6,8 @@ import StatsRow from "@/components/stats-row";
 import AddHabitForm from "@/components/add-habit-form";
 import HabitList from "@/components/habit-list";
 import HabitModal from "@/components/habit-modal";
+import WeeklyHeatmap from "@/components/weekly-heatmap";
+import HabitCategoryFilter from "@/components/habit-categories";
 
 const TWEEN = { type: "tween" as const };
 
@@ -42,17 +44,26 @@ function pxShadow(values: string[]): string {
 const sp = pxShadow;
 
 const initialHabits = [
-  { id: "1", name: "Morning Run", completed: true, streak: 7, progress: 80, time: "6:00 AM" },
-  { id: "2", name: "Read 30min", completed: false, streak: 3, progress: 60, time: "8:00 PM" },
-  { id: "3", name: "Meditate", completed: true, streak: 12, progress: 100, time: "7:00 AM" },
-  { id: "4", name: "Write Journal", completed: false, streak: 1, progress: 20, time: "9:00 PM" },
-  { id: "5", name: "Code Practice", completed: true, streak: 5, progress: 75, time: "4:00 PM" },
+  { id: "1", name: "Morning Run", completed: true, streak: 7, progress: 80, time: "6:00 AM", category: "Health" as const },
+  { id: "2", name: "Read 30min", completed: false, streak: 3, progress: 60, time: "8:00 PM", category: "Personal" as const },
+  { id: "3", name: "Meditate", completed: true, streak: 12, progress: 100, time: "7:00 AM", category: "Health" as const },
+  { id: "4", name: "Write Journal", completed: false, streak: 1, progress: 20, time: "9:00 PM", category: "Personal" as const },
+  { id: "5", name: "Code Practice", completed: true, streak: 5, progress: 75, time: "4:00 PM", category: "Work" as const },
 ];
 
 export default function DashboardPage() {
   const [habits, setHabits] = useState(initialHabits);
-  const [selectedHabit, setSelectedHabit] = useState<typeof initialHabits[0] | null>(null);
+  const [selectedHabit, setSelectedHabit] = useState<{
+    id: string;
+    name: string;
+    completed: boolean;
+    streak: number;
+    progress: number;
+    time: string;
+    category: string;
+  } | null>(null);
   const [formPixels] = useState(() => generateFormPixels(0, 0, 73));
+  const [activeCategory, setActiveCategory] = useState("All");
 
   const addHabit = useCallback((name: string) => {
     const newHabit = {
@@ -62,6 +73,7 @@ export default function DashboardPage() {
       streak: 0,
       progress: 0,
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      category: "Personal" as const,
     };
     setHabits((prev) => [newHabit, ...prev]);
   }, []);
@@ -77,6 +89,10 @@ export default function DashboardPage() {
   const deleteHabit = useCallback((id: string) => {
     setHabits((prev) => prev.filter((h) => h.id !== id));
   }, []);
+
+  const filteredHabits = activeCategory === "All"
+    ? habits
+    : habits.filter((h) => h.category === activeCategory);
 
   return (
     <div className="flex min-h-screen flex-col bg-neutral-950">
@@ -149,19 +165,37 @@ export default function DashboardPage() {
             className="mt-8"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.25 }}
+            transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.2 }}
+          >
+            <WeeklyHeatmap />
+          </motion.div>
+
+          <motion.div
+            className="mt-8"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.3 }}
           >
             <AddHabitForm onAdd={addHabit} />
+          </motion.div>
+
+          <motion.div
+            className="mt-8"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.35 }}
+          >
+            <HabitCategoryFilter active={activeCategory} onSelect={setActiveCategory} />
           </motion.div>
 
           <motion.div
             className="mt-6"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.35 }}
+            transition={{ ...TWEEN, duration: 0.5, ease: "easeOut", delay: 0.4 }}
           >
             <HabitList
-              habits={habits}
+              habits={filteredHabits}
               onToggle={toggleHabit}
               onDelete={deleteHabit}
               onSelect={setSelectedHabit}

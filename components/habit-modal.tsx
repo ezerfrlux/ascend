@@ -11,6 +11,7 @@ interface Habit {
   streak: number;
   progress: number;
   time: string;
+  category: string;
 }
 
 interface HabitModalProps {

@@ -7,6 +7,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export default function SidebarLayout({
   children,
@@ -48,16 +49,22 @@ export default function SidebarLayout({
 
   return (
     <div className="relative flex min-h-screen w-full">
-      <button
+      <motion.button
         onClick={toggleDesktop}
-        className={cn(
-          "fixed top-4 z-50 flex h-10 w-10 items-center justify-center text-white/50 hover:text-white transition-colors duration-200 focus-visible:outline-hidden",
-          desktopOpen ? "left-[17rem]" : "left-4",
-        )}
+        initial={false}
+        animate={{
+          left: desktopOpen ? 272 : 16, // 272px = ~17rem, 16px = left-4
+        }}
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 30,
+        }}
+        className="fixed top-4 z-50 flex h-10 w-10 items-center justify-center text-white/50 hover:text-white focus-visible:outline-hidden"
         aria-label={desktopOpen ? "Collapse sidebar" : "Expand sidebar"}
       >
         <PanelLeft className="size-5" />
-      </button>
+      </motion.button>
 
       <div
         className={cn(
