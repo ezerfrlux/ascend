@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { FileText } from "lucide-react";
 
 const SPRING = { type: "spring" as const };
 const TWEEN = { type: "tween" as const };
@@ -13,6 +14,7 @@ interface Habit {
   progress: number;
   time: string;
   category: string;
+  notes: string;
 }
 
 interface HabitListProps {
@@ -89,6 +91,9 @@ export default function HabitList({ habits, onToggle, onDelete, onSelect }: Habi
               <span className="text-[10px] font-mono text-white/20 bg-white/5 px-1.5 py-0.5 rounded border border-white/5">
                 {habit.category}
               </span>
+              {habit.notes && (
+                <FileText className="size-3 text-white/20" />
+              )}
             </div>
           </div>
 

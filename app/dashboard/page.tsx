@@ -44,11 +44,11 @@ function pxShadow(values: string[]): string {
 const sp = pxShadow;
 
 const initialHabits = [
-  { id: "1", name: "Morning Run", completed: true, streak: 7, progress: 80, time: "6:00 AM", category: "Health" as const },
-  { id: "2", name: "Read 30min", completed: false, streak: 3, progress: 60, time: "8:00 PM", category: "Personal" as const },
-  { id: "3", name: "Meditate", completed: true, streak: 12, progress: 100, time: "7:00 AM", category: "Health" as const },
-  { id: "4", name: "Write Journal", completed: false, streak: 1, progress: 20, time: "9:00 PM", category: "Personal" as const },
-  { id: "5", name: "Code Practice", completed: true, streak: 5, progress: 75, time: "4:00 PM", category: "Work" as const },
+  { id: "1", name: "Morning Run", completed: true, streak: 7, progress: 80, time: "6:00 AM", category: "Health" as const, notes: "Felt great today, pushed for 5k" },
+  { id: "2", name: "Read 30min", completed: false, streak: 3, progress: 60, time: "8:00 PM", category: "Personal" as const, notes: "Reading about design systems" },
+  { id: "3", name: "Meditate", completed: true, streak: 12, progress: 100, time: "7:00 AM", category: "Health" as const, notes: "Morning meditation, 10 min" },
+  { id: "4", name: "Write Journal", completed: false, streak: 1, progress: 20, time: "9:00 PM", category: "Personal" as const, notes: "" },
+  { id: "5", name: "Code Practice", completed: true, streak: 5, progress: 75, time: "4:00 PM", category: "Work" as const, notes: "Worked on the sidebar component" },
 ];
 
 export default function DashboardPage() {
@@ -61,6 +61,7 @@ export default function DashboardPage() {
     progress: number;
     time: string;
     category: string;
+    notes: string;
   } | null>(null);
   const [formPixels] = useState(() => generateFormPixels(0, 0, 73));
   const [activeCategory, setActiveCategory] = useState("All");
@@ -74,6 +75,7 @@ export default function DashboardPage() {
       progress: 0,
       time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
       category: "Personal" as const,
+      notes: "",
     };
     setHabits((prev) => [newHabit, ...prev]);
   }, []);
@@ -93,6 +95,14 @@ export default function DashboardPage() {
   const filteredHabits = activeCategory === "All"
     ? habits
     : habits.filter((h) => h.category === activeCategory);
+
+  const saveHabitNotes = useCallback((id: string, notes: string) => {
+    setHabits((prev) =>
+      prev.map((h) =>
+        h.id === id ? { ...h, notes } : h
+      )
+    );
+  }, []);
 
   return (
     <div className="flex min-h-screen flex-col bg-neutral-950">
@@ -208,6 +218,7 @@ export default function DashboardPage() {
         habit={selectedHabit}
         onClose={() => setSelectedHabit(null)}
         onToggle={toggleHabit}
+        onSaveNotes={saveHabitNotes}
       />
     </div>
   );

@@ -1,6 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useState, useCallback } from "react";
+import { FileText } from "lucide-react";
 
 const SPRING = { type: "spring" as const };
 
@@ -12,15 +14,28 @@ interface Habit {
   progress: number;
   time: string;
   category: string;
+  notes: string;
 }
 
 interface HabitModalProps {
   habit: Habit | null;
   onClose: () => void;
   onToggle: (id: string) => void;
+  onSaveNotes: (id: string, notes: string) => void;
 }
 
-export default function HabitModal({ habit, onClose, onToggle }: HabitModalProps) {
+export default function HabitModal({ habit, onClose, onToggle, onSaveNotes }: HabitModalProps) {
+  const [notes, setNotes] = useState(habit?.notes ?? "");
+  const [saved, setSaved] = useState(false);
+
+  const handleSaveNotes = useCallback(() => {
+    if (habit) {
+      onSaveNotes(habit.id, notes);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    }
+  }, [habit, notes, onSaveNotes]);
+
   return (
     <AnimatePresence>
       {habit && (
@@ -102,6 +117,41 @@ export default function HabitModal({ habit, onClose, onToggle }: HabitModalProps
                 <span className="text-xs font-mono text-white/50">
                   {habit.time}
                 </span>
+              </div>
+
+              <div className="border-t border-white/5 pt-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <FileText className="size-3 text-white/40" />
+                  <span className="text-xs font-mono text-white/60">Notes</span>
+                </div>
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder="Add a note about this habit..."
+                  className="w-full bg-white/5 border border-white/10 rounded-none px-3 py-2 text-sm text-white placeholder:text-white/30 font-mono focus:border-purple-500/50 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-colors duration-300 resize-none"
+                  rows={3}
+                />
+                <div className="flex items-center gap-3 mt-3">
+                  <motion.button
+                    className="px-4 py-1.5 bg-purple-600 border-2 border-purple-500/50 text-white text-[10px] font-bold tracking-[0.15em] font-mono hover:bg-purple-500 transition-all duration-300"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ ...SPRING, stiffness: 400, damping: 17 }}
+                    onClick={handleSaveNotes}
+                  >
+                    SAVE NOTES
+                  </motion.button>
+                  {saved && (
+                    <motion.span
+                      className="text-xs font-mono text-purple-400"
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      Saved
+                    </motion.span>
+                  )}
+                </div>
               </div>
             </div>
 
